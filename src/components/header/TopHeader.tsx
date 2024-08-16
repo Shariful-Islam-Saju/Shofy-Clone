@@ -1,8 +1,6 @@
-import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoChevronDownSharp } from "react-icons/io5";
 import Container from "../Container";
-
 const TopHeader = () => {
   return (
     <div className="bg-[#010f1c] text-gray-200 w-full">
