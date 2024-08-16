@@ -4,7 +4,6 @@ import Image from "next/image";
 import { MdFavoriteBorder, MdStar } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi";
 import { LuEye } from "react-icons/lu";
-import Button from "./ui/Button";
 import AddToCartButton from "./AddToCartButton";
 
 interface Props {
@@ -29,7 +28,7 @@ const SideBar = () => {
 
 const ProductCard = ({ product }: Props) => {
   return (
-    <div className="border border-borderColor hover:shadow-lg hover:shadow-black/30 duration-300 rounded-md group overflow-hidden">
+    <div className="border border-borderColor hover:shadow-lg hover:shadow-black/30 duration-300 rounded-md group overflow-x-hidden flex flex-col">
       <div className=" relative">
         <Image
           src={product?.images[0]}
@@ -44,16 +43,20 @@ const ProductCard = ({ product }: Props) => {
         </p>
         <SideBar />
       </div>
-      <div className="border-t border-t-borderColor py-2 px-4 flex flex-col gap-y-1">
-        <p className="text-sm text-lightText capitalize font-medium">
-          {product?.category}
-        </p>
+      <div className="border-t border-t-borderColor py-2 px-4 flex flex-col justify-between h-full  gap-y-1">
+        <div className="flex flex-col">
+          <p className="text-sm text-lightText capitalize font-medium">
+            {product?.category}
+          </p>
 
-        <h2 className="font-semibold text-base line-clamp-2">
-          {product?.title}
-        </h2>
-        <p className="font-semibold text-skyColor">${product?.price}</p>
-        <AddToCartButton />
+          <h2 className="font-semibold text-base line-clamp-2">
+            {product?.title}
+          </h2>
+        </div>
+        <div className="flex flex-col">
+          <p className="font-semibold text-skyColor">${product?.price}</p>
+          <AddToCartButton />
+        </div>
       </div>
     </div>
   );
