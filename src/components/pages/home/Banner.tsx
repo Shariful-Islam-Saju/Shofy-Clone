@@ -3,19 +3,19 @@ import Container from "@/components/Container";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
-
-const getData = async () => {
-  const response = await fetch(`${process.env.API_URL}api/products`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return response.json();
-};
+import { getData } from "@/app/helpers";
+// const getData = async () => {
+//   const response = await fetch(`${process.env.API_URL}api/products`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   return response.json();
+// };
 
 const Banner = async () => {
-  const { banner } = await getData();
+  const { banner } = await getData(`${process.env.API_URL}api/products`);
 
   return (
     <div className="bg-[#115061] py-20 text-themeWhite">
