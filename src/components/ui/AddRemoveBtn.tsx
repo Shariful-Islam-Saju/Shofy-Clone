@@ -29,19 +29,19 @@ const AddRemoveBtn = ({ item }: propsType) => {
     dispatch(addToCart({ product, quantity: -1 }));
   }
   return (
-    <div className="flex justify-start ">
+    <div className="flex items-center space-x-4 border border-gray-300 rounded-full px-4 py-1">
       {" "}
       <button
         onClick={addProduct}
-        className="border py-1 mx-1 border-slate-500 bg-gray-100 text-black font-semibold rounded-md px-4 hover:bg-gray-300 duration-300"
+        className="text-lg font-semibold text-gray-600 hover:text-gray-800 focus:outline-none"
       >
         +
       </button>{" "}
       <button
         disabled={isDisable}
         onClick={removeProduct}
-        className={`border py-1 mx-1 border-slate-500  text-black font-semibold rounded-md px-4 hover:bg-gray-300 duration-300 ${
-          isDisable ? "bg-gray-500 " : "bg-gray-100  "
+        className={`text-lg font-semibold text-gray-600 hover:text-gray-800 focus:outline-none${
+          isDisable ? "bg-gray-500 " : " "
         }`}
       >
         -
@@ -51,3 +51,5 @@ const AddRemoveBtn = ({ item }: propsType) => {
 };
 
 export default AddRemoveBtn;
+
+

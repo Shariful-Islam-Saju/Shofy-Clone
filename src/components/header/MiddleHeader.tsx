@@ -38,6 +38,7 @@ const MiddleHeader = () => {
         <Link href={"/"}>
           <Image src={logo} alt="logo" className="w-28" />
         </Link>
+
         <div className="hidden md:inline-flex flex-1 h-10 relative">
           <input
             type="text"
@@ -58,29 +59,32 @@ const MiddleHeader = () => {
             <RiSearchLine />
           </span>
         </div>
+
+        {/* text again */}
+
         <div className="hidden md:inline-flex items-center gap-3">
           {/* User */}
           {session?.user ? (
-            <Link
-              href={"/profile"}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <div className="border-2 w-10 h-10 border-gray-700  rounded-full text-xl">
-                <Image
-                  src={session?.user?.image!}
-                  alt="userImage"
-                  width={200}
-                  height={200}
-                  className="  w-full rounded-full h-full "
-                />
-              </div>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Link href={"/profile"} className="flex items-center gap-2">
+                <div className="border-2 w-10 h-10 border-gray-700 rounded-full text-xl">
+                  <Image
+                    src={session?.user?.image!}
+                    alt="userImage"
+                    width={200}
+                    height={200}
+                    className="w-full rounded-full h-full"
+                  />
+                </div>
+              </Link>
               <div>
                 <p className="text-xs">Hello, {session?.user?.name}</p>
+                {/* Use a button or div for the view profile to avoid nested Links */}
                 <Link href={"/profile"} className="text-sm">
-                  view profile
+                  <span className="cursor-pointer">View profile</span>
                 </Link>
               </div>
-            </Link>
+            </div>
           ) : (
             <div
               onClick={() => signIn()}
@@ -110,6 +114,7 @@ const MiddleHeader = () => {
             </span>
           </Link>
         </div>
+
         <div className="text-3xl md:hidden text-gray-500 hover:text-themeColor duration-200 cursor-pointer">
           <RiMenu3Fill />
         </div>
