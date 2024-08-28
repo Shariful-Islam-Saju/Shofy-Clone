@@ -11,6 +11,7 @@ const Header = () => {
         {/* Middle Header */}
         <MiddleHeader />
         {/* BottomHeader */}
+        <BottomHeader />
       </div>
     </header>
   );

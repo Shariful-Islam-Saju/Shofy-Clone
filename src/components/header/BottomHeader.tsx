@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
 import Container from "../Container";
 import Link from "next/link";
 import { navigation } from "@/constants";
+import { signOut, useSession } from "next-auth/react";
 
 const BottomHeader = () => {
+  const { data: session } = useSession();
+
   return (
     <div className="border-b border-b-gray-400">
       <Container className="flex items-center justify-between py-1">
@@ -13,6 +16,7 @@ const BottomHeader = () => {
               {item?.title}
             </Link>
           ))}
+          {session?.user && <button onClick={() => signOut()}>Sign out</button>}
         </div>
         <p className="text-xs text-gray-400 font-medium hidden md:inline-flex">
           Hotline: <span className="text-black">+88 01012345678</span>

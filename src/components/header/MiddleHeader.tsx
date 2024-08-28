@@ -2,16 +2,32 @@
 import Container from "../Container";
 import Image from "next/image";
 import { RiSearchLine, RiCloseLine } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LiaUser } from "react-icons/lia";
 import { MdFavoriteBorder } from "react-icons/md";
 import { BiShoppingBag } from "react-icons/bi";
 import Link from "next/link";
 import logo from "../../assets/logo.png";
 import { RiMenu3Fill } from "react-icons/ri";
+import { signIn, useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "@/redux/shofySlice";
+import { ProductType, StateType } from "../../../type";
 
 const MiddleHeader = () => {
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state: StateType) => state?.shopy);
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    if (session?.user) {
+      dispatch(addUser(session?.user));
+    } else {
+      dispatch(removeUser());
+    }
+  }, [session?.user, dispatch]);
 
   return (
     <div className="border-b-[1px] border-b-gray-400">
@@ -41,15 +57,41 @@ const MiddleHeader = () => {
         </div>
         <div className="hidden md:inline-flex items-center gap-3">
           {/* User */}
-          <div className="flex items-center gap-2">
-            <div className="border-2 border-gray-700 p-1.5 rounded-full text-xl">
-              <LiaUser />
+          {session?.user ? (
+            <Link
+              href={"/profile"}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <div className="border-2 border-gray-700 p-1.5 rounded-full text-xl">
+                <Image
+                  src={session?.user?.image!}
+                  alt="userImage"
+                  width={200}
+                  height={200}
+                  className="w-5 h-5 object-cover"
+                />
+              </div>
+              <div>
+                <p className="text-xs">Hello, {session?.user?.name}</p>
+                <Link href={"/profile"} className="text-sm">
+                  view profile
+                </Link>
+              </div>
+            </Link>
+          ) : (
+            <div
+              onClick={() => signIn()}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <div className="border-2 border-gray-700 p-1.5 rounded-full text-xl">
+                <LiaUser />
+              </div>
+              <div>
+                <p className="text-xs">Hello, Guests</p>
+                <p className="text-sm">Login / Register</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs">Hello, Guests</p>
-              <p className="text-sm">Login / Register</p>
-            </div>
-          </div>
+          )}
           {/* Favorite Icon */}
           <Link href={"/favorite"} className="text-2xl relative">
             <MdFavoriteBorder />
@@ -61,7 +103,7 @@ const MiddleHeader = () => {
           <Link href="/cart" className="text-2xl relative">
             <BiShoppingBag />
             <span className="absolute -top-1 -right-1 text-[10px] font-medium w-4 h-4 bg-themeColor text-white rounded-full flex items-center justify-center">
-              0
+              {totalQuantity}
             </span>
           </Link>
         </div>

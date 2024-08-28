@@ -1,34 +1,29 @@
+"use client";
 import React from "react";
-import { ProductType } from "../../type";
+import { ProductType, StateType } from "../../type";
 import Image from "next/image";
 import { MdFavoriteBorder, MdStar } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi";
 import { LuEye } from "react-icons/lu";
+import Button from "./ui/Button";
 import AddToCartButton from "./AddToCartButton";
+import SideBar from "./Sidebar";
+import { useSelector } from "react-redux";
+import AddRemoveBtn from "./ui/AddRemoveBtn";
 
 interface Props {
   product: ProductType;
 }
 
-const SideBar = () => {
-  return (
-    <div className="absolute right-2 bottom-12 border flex flex-col text-2xl border-borderColor bg-white rounded-md overflow-hidden transform translate-x-20 group-hover:translate-x-0 duration-300">
-      <button className="p-2 hover:bg-skyColor duration-300 hover:text-white">
-        <FiShoppingCart />
-      </button>
-      <button className="p-2 hover:bg-skyColor duration-300 hover:text-white border-y border-y-borderColor">
-        <LuEye />
-      </button>
-      <button className="p-2 hover:bg-skyColor duration-300 hover:text-white">
-        <MdFavoriteBorder />
-      </button>
-    </div>
-  );
-};
-
 const ProductCard = ({ product }: Props) => {
+  const { cart } = useSelector((state: StateType) => state?.shopy);
+
+  const existingProduct = cart?.find(
+    (item) => item?.product?.id === product?.id
+  );
+
   return (
-    <div className="border border-borderColor hover:shadow-lg hover:shadow-black/30 duration-300 rounded-md group overflow-x-hidden flex flex-col">
+    <div className="border border-borderColor hover:shadow-lg hover:shadow-black/30 duration-300 rounded-md group overflow-hidden">
       <div className=" relative">
         <Image
           src={product?.images[0]}
@@ -43,8 +38,8 @@ const ProductCard = ({ product }: Props) => {
         </p>
         <SideBar />
       </div>
-      <div className="border-t border-t-borderColor py-2 px-4 flex flex-col justify-between h-full  gap-y-1">
-        <div className="flex flex-col">
+      <div className="border-t border-t-borderColor py-2 px-4 flex flex-col justify-between h-40">
+        <div className="flex flex-col ">
           <p className="text-sm text-lightText capitalize font-medium">
             {product?.category}
           </p>
@@ -52,11 +47,17 @@ const ProductCard = ({ product }: Props) => {
           <h2 className="font-semibold text-base line-clamp-2">
             {product?.title}
           </h2>
-        </div>
-        <div className="flex flex-col">
           <p className="font-semibold text-skyColor">${product?.price}</p>
-          <AddToCartButton />
         </div>
+        {existingProduct ? (
+          <div className="flex justify-between pb-3">
+            {" "}
+            <AddRemoveBtn item={existingProduct} />{" "}
+            <p className=" font-bold text-2xl">{existingProduct.quantity}</p>
+          </div>
+        ) : (
+          <AddToCartButton product={product} />
+        )}
       </div>
     </div>
   );
