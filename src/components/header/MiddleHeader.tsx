@@ -17,7 +17,10 @@ import { ProductType, StateType } from "../../../type";
 const MiddleHeader = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state: StateType) => state?.shopy);
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQuantity = cart.reduce(
+    (sum: any, item: { quantity: any }) => sum + item.quantity,
+    0
+  );
   const { data: session } = useSession();
   const [searchValue, setSearchValue] = useState("");
 
@@ -62,13 +65,13 @@ const MiddleHeader = () => {
               href={"/profile"}
               className="flex items-center gap-2 cursor-pointer"
             >
-              <div className="border-2 border-gray-700 p-1.5 rounded-full text-xl">
+              <div className="border-2 w-10 h-10 border-gray-700  rounded-full text-xl">
                 <Image
                   src={session?.user?.image!}
                   alt="userImage"
                   width={200}
                   height={200}
-                  className="w-5 h-5 object-cover"
+                  className="  w-full rounded-full h-full "
                 />
               </div>
               <div>
